@@ -1,4 +1,4 @@
-import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
+import { APIGatewayProxyEvent, APIGatewayProxyResult, SQSEvent, SQSHandler } from 'aws-lambda';
 
 /**
  *
@@ -10,13 +10,18 @@ import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
  *
  */
 
-export const lambdaHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
+export const lambdaHandler = async (event: SQSEvent) => {
     try {
+        const responseBody = {
+            message: 'Harmony restored to the Mythic Realms. The monuments stand tall once more.',
+            mythosInfo: {
+                name: "FreedomFall"
+            },
+        };
+
         return {
             statusCode: 200,
-            body: JSON.stringify({
-                message: 'hello world',
-            }),
+            body: JSON.stringify(responseBody)
         };
     } catch (err) {
         console.log(err);
